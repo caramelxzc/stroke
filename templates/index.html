@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Prediksi Risiko Stroke</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+         :root {
+            --red: #E24B4A;
+            --red-light: #FCEBEB;
+            --red-dark: #791F1F;
+            --green: #639922;
+            --green-light: #EAF3DE;
+            --gray-100: #f7f7f6;
+            --gray-200: #e8e7e2;
+            --gray-600: #5F5E5A;
+            --text: #1a1a18;
+            --text-muted: #5F5E5A;
+            --border: rgba(0, 0, 0, 0.1);
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--gray-100);
+            color: var(--text);
+        }
+        
+        nav {
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 58px;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            font-size: 16px;
+        }
+        
+        .logo-mark {
+            width: 34px;
+            height: 34px;
+            background: var(--red);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .logo-mark svg {
+            width: 18px;
+            height: 18px;
+        }
+        
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .nav-links a:hover {
+            color: var(--text);
+        }
+        
+        .nav-btn {
+            background: var(--red);
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 7px 16px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .hero {
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+        
+        .badge {
+            display: inline-block;
+            background: var(--red-light);
+            color: var(--red-dark);
+            font-size: 12px;
+            padding: 5px 14px;
+            border-radius: 20px;
+            margin-bottom: 1rem;
+        }
+        
+        .hero h1 {
+            font-size: 30px;
+            font-weight: 700;
+            margin-bottom: .75rem;
+        }
+        
+        .hero p {
+            font-size: 15px;
+            color: var(--text-muted);
+            max-width: 520px;
+            margin: 0 auto 1.5rem;
+            line-height: 1.7;
+        }
+        
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        
+        .container {
+            max-width: 960px;
+            margin: 2rem auto;
+            padding: 0 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 1.5rem;
+        }
+        
+        .card {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .card-title {
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--text);
+        }
+        
+        .card-title span {
+            font-size: 18px;
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        
+        .fg {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        
+        .fg label {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        
+        .fg input,
+        .fg select {
+            padding: 9px 11px;
+            border: 1px solid var(--border);
+            border-radius: 7px;
+            font-size: 13px;
+            color: var(--text);
+            background: #fff;
+            outline: none;
+            width: 100%;
+        }
+        
+        .fg input:focus,
+        .fg select:focus {
+            border-color: var(--red);
+        }
+        
+        .btn-predict {
+            width: 100%;
+            margin-top: 1.25rem;
+            padding: 12px;
+            background: var(--red);
+            color: #fff;
+            border: none;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: opacity .15s;
+        }
+        
+        .btn-predict:hover {
+            opacity: .9;
+        }
+        
+        #result {
+            margin-top: 1.25rem;
+            padding: 1rem;
+            border-radius: 9px;
+            display: none;
+        }
+        
+        #result.high {
+            background: var(--red-light);
+            border: 1px solid #F09595;
+        }
+        
+        #result.low {
+            background: var(--green-light);
+            border: 1px solid #97C459;
+        }
+        
+        .res-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .res-desc {
+            font-size: 13px;
+            line-height: 1.6;
+            color: var(--text-muted);
+        }
+        
+        .res-bar {
+            margin-top: 10px;
+        }
+        
+        .res-bar-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-bottom: 4px;
+        }
+        
+        .res-track {
+            height: 7px;
+            background: var(--gray-200);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .res-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width .7s ease;
+        }
+        
+        .stats-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        
+        .metric {
+            background: var(--gray-100);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+        
+        .metric .num {
+            font-size: 24px;
+            font-weight: 700;
+        }
+        
+        .metric .lbl {
+            font-size: 12px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+        
+        .metric.r .num {
+            color: var(--red);
+        }
+        
+        .metric.g .num {
+            color: var(--green);
+        }
+        
+        .metric.b .num {
+            color: #378ADD;
+        }
+        
+        .tip {
+            display: flex;
+            gap: 8px;
+            align-items: flex-start;
+            font-size: 13px;
+            line-height: 1.55;
+            margin-bottom: 8px;
+        }
+        
+        .tip-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: var(--red);
+            margin-top: 5px;
+            flex-shrink: 0;
+        }
+        
+        .tech-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-top: .5rem;
+        }
+        
+        .tech-tag {
+            background: var(--gray-100);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 4px 11px;
+            font-size: 12px;
+        }
+        
+        footer {
+            border-top: 1px solid var(--border);
+            padding: 1.5rem 2rem;
+            text-align: center;
+            font-size: 12px;
+            color: var(--text-muted);
+            background: #fff;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="hero">
+        <div class="badge">🧠 AI-Powered Medical Tool</div>
+        <h1>Prediksi Risiko Stroke</h1>
+        <p>Masukkan data kesehatan Anda untuk mendapatkan analisis risiko stroke secara instan menggunakan model Machine Learning.</p>
+        <div class="hero-stats">
+            <span>📊 Akurasi &gt;90%</span>
+            <span>🗂 5,110 data latih</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <div>
+            <div class="card">
+                <div class="card-title"><span>📋</span> Input Data Pasien</div>
+                <div class="form-grid">
+                    <div class="fg"><label>Usia (tahun)</label><input type="number" id="age" value="45" min="1" max="120" /></div>
+                    <div class="fg"><label>Jenis Kelamin</label>
+                        <select id="gender"><option value="Male">Laki-laki</option><option value="Female">Perempuan</option></select>
+                    </div>
+                    <div class="fg"><label>Penyakit Jantung</label>
+                        <select id="heart"><option value="0">Tidak</option><option value="1">Ya</option></select>
+                    </div>
+                    <div class="fg"><label>Hipertensi</label>
+                        <select id="hypertension"><option value="0">Tidak</option><option value="1">Ya</option></select>
+                    </div>
+                    <div class="fg"><label>Status Pernikahan</label>
+                        <select id="married"><option value="Yes">Menikah</option><option value="No">Belum Menikah</option></select>
+                    </div>
+                    <div class="fg"><label>Jenis Pekerjaan</label>
+                        <select id="work"><option value="Private">Swasta</option><option value="Self-employed">Wiraswasta</option><option value="Govt_job">PNS</option><option value="children">Pelajar</option></select>
+                    </div>
+                    <div class="fg"><label>Kadar Glukosa (mg/dL)</label><input type="number" id="glucose" value="105" /></div>
+                    <div class="fg"><label>BMI</label><input type="number" id="bmi" step="0.1" value="28.5" /></div>
+                    <div class="fg"><label>Status Merokok</label>
+                        <select id="smoke"><option value="never smoked">Tidak Pernah</option><option value="formerly smoked">Pernah Merokok</option><option value="smokes">Aktif Merokok</option></select>
+                    </div>
+                    <div class="fg"><label>Tempat Tinggal</label>
+                        <select id="residence"><option value="Urban">Perkotaan</option><option value="Rural">Pedesaan</option></select>
+                    </div>
+                </div>
+                <button class="btn-predict" onclick="predict()">🔍 Analisis Risiko Stroke</button>
+                <div id="result">
+                    <div class="res-title" id="rTitle"></div>
+                    <div class="res-desc" id="rDesc"></div>
+                    <div class="res-bar">
+                        <div class="res-bar-label"><span>Probabilitas</span><span id="rProb"></span></div>
+                        <div class="res-track">
+                            <div class="res-fill" id="rFill"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="card">
+                <div class="card-title"><span>📈</span> Performa Model</div>
+                <div class="metric r">
+                    <div class="num">92.4%</div>
+                    <div class="lbl">Akurasi Keseluruhan</div>
+                </div>
+                <div style="margin-top:10px;" class="metric g">
+                    <div class="num">91.8%</div>
+                    <div class="lbl">F1-Score</div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-title"><span>⚠️</span> Faktor Risiko</div>
+                <div class="tip">
+                    <div class="tip-dot"></div>Usia di atas 60 tahun</div>
+                <div class="tip">
+                    <div class="tip-dot"></div>Kadar glukosa tinggi (&gt;200)</div>
+                <div class="tip">
+                    <div class="tip-dot"></div>Hipertensi & penyakit jantung</div>
+                <div class="tip">
+                    <div class="tip-dot"></div>BMI di atas 30</div>
+                <div class="tip">
+                    <div class="tip-dot"></div>Merokok aktif</div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <footer>⚠️HANYA UNTUK TUJUAN EDUKASI DAN PENELITIAN. BUKAN PENGGANTI DIAGNOSIS MEDIS</footer>
+
+    <script>
+        async function predict() {
+            const body = {
+                gender: document.getElementById("gender").value,
+                age: document.getElementById("age").value,
+                hypertension: document.getElementById("hypertension").value,
+                heart_disease: document.getElementById("heart").value,
+                ever_married: document.getElementById("married").value,
+                work_type: document.getElementById("work").value,
+                residence_type: document.getElementById("residence").value,
+                avg_glucose_level: document.getElementById("glucose").value,
+                bmi: document.getElementById("bmi").value,
+                smoking_status: document.getElementById("smoke").value
+            };
+            try {
+                const res = await fetch("/predict", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(body)
+                });
+                const d = await res.json();
+                showResult(d);
+            } catch (e) {
+                alert("Error: " + e.message);
+            }
+        }
+
+        function showResult(d) {
+            const el = document.getElementById("result");
+            const isHigh = d.prediction === 1;
+            el.className = isHigh ? "high" : "low";
+            el.style.display = "block";
+            document.getElementById("rTitle").textContent = isHigh ? "⚠️ Risiko " + d.risk_level : "✅ Risiko " + d.risk_level;
+            document.getElementById("rDesc").textContent = d.message;
+            document.getElementById("rProb").textContent = d.probability + "%";
+            const fill = document.getElementById("rFill");
+            fill.style.width = d.probability + "%";
+            fill.style.background = isHigh ? "#E24B4A" : "#639922";
+        }
+    </script>
+</body>
+
+</html>
