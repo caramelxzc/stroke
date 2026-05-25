@@ -3,8 +3,8 @@
 
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Prediksi Risiko Stroke</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Health Predict — Stroke & Stunting</title>
     <style>
         * {
             margin: 0;
@@ -16,174 +16,266 @@
             --red: #E24B4A;
             --red-light: #FCEBEB;
             --red-dark: #791F1F;
+            --teal: #1D9E75;
+            --teal-light: #E1F5EE;
+            --teal-dark: #085041;
             --green: #639922;
             --green-light: #EAF3DE;
-            --gray-100: #f7f7f6;
+            --amber: #BA7517;
+            --amber-light: #FAEEDA;
+            --blue: #378ADD;
+            --blue-light: #E6F1FB;
+            --gray-100: #F1EFE8;
             --gray-200: #e8e7e2;
-            --gray-600: #5F5E5A;
             --text: #1a1a18;
             --text-muted: #5F5E5A;
             --border: rgba(0, 0, 0, 0.1);
+            --sidebar-w: 210px;
         }
         
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
             background: var(--gray-100);
             color: var(--text);
+            display: flex;
+            min-height: 100vh;
         }
         
-        nav {
+        .sidebar {
+            width: var(--sidebar-w);
+            min-height: 100vh;
             background: #fff;
-            border-bottom: 1px solid var(--border);
-            padding: 0 2rem;
+            border-right: 1px solid var(--border);
             display: flex;
-            align-items: center;
-            justify-content: space-between;
-            height: 58px;
+            flex-direction: column;
             position: sticky;
             top: 0;
-            z-index: 100;
+            height: 100vh;
+            flex-shrink: 0;
         }
         
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-weight: 600;
-            font-size: 16px;
+        .sidebar-logo {
+            padding: 16px 14px 12px;
+            border-bottom: 1px solid var(--border);
         }
         
         .logo-mark {
-            width: 34px;
-            height: 34px;
+            width: 32px;
+            height: 32px;
             background: var(--red);
             border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
+            margin-bottom: 8px;
         }
         
         .logo-mark svg {
-            width: 18px;
-            height: 18px;
+            width: 16px;
+            height: 16px;
         }
         
-        .nav-links {
-            display: flex;
-            gap: 1.5rem;
-            font-size: 14px;
-            color: var(--text-muted);
-        }
-        
-        .nav-links a {
-            text-decoration: none;
-            color: inherit;
-        }
-        
-        .nav-links a:hover {
+        .logo-title {
+            font-size: 13px;
+            font-weight: 600;
             color: var(--text);
         }
         
-        .nav-btn {
-            background: var(--red);
-            color: #fff;
-            border: none;
-            border-radius: 6px;
-            padding: 7px 16px;
-            font-size: 13px;
+        .logo-sub {
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-top: 1px;
+        }
+        
+        .sidebar-menu {
+            padding: 12px 8px;
+            flex: 1;
+        }
+        
+        .menu-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            font-weight: 600;
+            padding: 0 8px;
+            margin-bottom: 6px;
+            letter-spacing: .6px;
+            text-transform: uppercase;
+        }
+        
+        .menu-item {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            padding: 8px 10px;
+            border-radius: 8px;
             cursor: pointer;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 2px;
+            border: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            transition: background .15s;
+        }
+        
+        .menu-item:hover {
+            background: var(--gray-100);
+        }
+        
+        .menu-item.active-stroke {
+            background: var(--red-light);
+            color: var(--red-dark);
+            font-weight: 600;
+        }
+        
+        .menu-item.active-teal {
+            background: var(--teal-light);
+            color: var(--teal-dark);
+            font-weight: 600;
+        }
+        
+        .menu-item svg {
+            width: 16px;
+            height: 16px;
+            flex-shrink: 0;
+        }
+        
+        .sidebar-footer {
+            padding: 12px 14px;
+            border-top: 1px solid var(--border);
+            font-size: 11px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        
+        .main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            overflow: auto;
+        }
+        
+        .topbar {
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 0 24px;
+            height: 52px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .topbar-title {
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .topbar-badge {
+            font-size: 11px;
+            padding: 3px 10px;
+            border-radius: 20px;
+        }
+        
+        .content {
+            padding: 20px 24px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .page {
+            display: none;
+            width: 100%;
+            max-width: 900px;
+        }
+        
+        .page.active {
+            display: block;
         }
         
         .hero {
-            background: #fff;
-            border-bottom: 1px solid var(--border);
-            padding: 3rem 2rem;
             text-align: center;
-        }
-        
-        .badge {
-            display: inline-block;
-            background: var(--red-light);
-            color: var(--red-dark);
-            font-size: 12px;
-            padding: 5px 14px;
-            border-radius: 20px;
-            margin-bottom: 1rem;
+            margin-bottom: 20px;
         }
         
         .hero h1 {
-            font-size: 30px;
+            font-size: 20px;
             font-weight: 700;
-            margin-bottom: .75rem;
+            margin-bottom: 6px;
         }
         
         .hero p {
-            font-size: 15px;
+            font-size: 13px;
             color: var(--text-muted);
-            max-width: 520px;
-            margin: 0 auto 1.5rem;
-            line-height: 1.7;
+            max-width: 420px;
+            margin: 0 auto;
         }
         
         .hero-stats {
             display: flex;
             justify-content: center;
-            gap: 2rem;
-            font-size: 13px;
+            gap: 1.5rem;
+            font-size: 12px;
             color: var(--text-muted);
+            margin-top: 8px;
         }
         
-        .container {
-            max-width: 960px;
-            margin: 2rem auto;
-            padding: 0 1.5rem;
+        .grid2 {
             display: grid;
-            grid-template-columns: 1fr 320px;
-            gap: 1.5rem;
+            grid-template-columns: 1fr 260px;
+            gap: 14px;
+            align-items: start;
         }
         
         .card {
             background: #fff;
             border: 1px solid var(--border);
             border-radius: 12px;
-            padding: 1.5rem;
+            padding: 16px;
         }
         
         .card-title {
-            font-size: 15px;
+            font-size: 13px;
             font-weight: 600;
-            margin-bottom: 1.25rem;
+            margin-bottom: 12px;
             display: flex;
             align-items: center;
-            gap: 8px;
-            color: var(--text);
+            gap: 6px;
         }
         
-        .card-title span {
-            font-size: 18px;
+        .card-title svg {
+            width: 15px;
+            height: 15px;
         }
         
-        .form-grid {
+        .form-row {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 14px;
+            gap: 10px;
         }
         
         .fg {
             display: flex;
             flex-direction: column;
-            gap: 5px;
+            gap: 4px;
+            margin-bottom: 10px;
         }
         
         .fg label {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-muted);
-            font-weight: 500;
+            font-weight: 600;
         }
         
         .fg input,
         .fg select {
-            padding: 9px 11px;
+            padding: 8px 10px;
             border: 1px solid var(--border);
             border-radius: 7px;
             font-size: 13px;
@@ -191,285 +283,493 @@
             background: #fff;
             outline: none;
             width: 100%;
+            transition: border-color .15s;
         }
         
-        .fg input:focus,
-        .fg select:focus {
+        .stroke-focus .fg input:focus,
+        .stroke-focus .fg select:focus {
             border-color: var(--red);
         }
         
-        .btn-predict {
+        .teal-focus .fg input:focus,
+        .teal-focus .fg select:focus {
+            border-color: var(--teal);
+        }
+        
+        .btn {
             width: 100%;
-            margin-top: 1.25rem;
-            padding: 12px;
-            background: var(--red);
-            color: #fff;
+            padding: 10px;
             border: none;
-            border-radius: 9px;
-            font-size: 15px;
+            border-radius: 8px;
+            font-size: 13px;
             font-weight: 600;
             cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
+            margin-top: 4px;
             transition: opacity .15s;
         }
         
-        .btn-predict:hover {
-            opacity: .9;
+        .btn:hover {
+            opacity: .88;
         }
         
-        #result {
-            margin-top: 1.25rem;
-            padding: 1rem;
-            border-radius: 9px;
+        .btn:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+        
+        .btn-red {
+            background: var(--red);
+            color: #fff;
+        }
+        
+        .btn-teal {
+            background: var(--teal);
+            color: #fff;
+        }
+        
+        .result-box {
+            margin-top: 12px;
+            padding: 12px;
+            border-radius: 8px;
             display: none;
         }
         
-        #result.high {
-            background: var(--red-light);
-            border: 1px solid #F09595;
+        .result-box.show {
+            display: block;
         }
         
-        #result.low {
+        .result-box.green {
             background: var(--green-light);
             border: 1px solid #97C459;
         }
         
-        .res-title {
-            font-size: 14px;
-            font-weight: 600;
-            margin-bottom: 5px;
+        .result-box.red {
+            background: var(--red-light);
+            border: 1px solid #F09595;
         }
         
-        .res-desc {
+        .result-box.amber {
+            background: var(--amber-light);
+            border: 1px solid #EF9F27;
+        }
+        
+        .result-box.blue {
+            background: var(--blue-light);
+            border: 1px solid #85B7EB;
+        }
+        
+        .result-title {
             font-size: 13px;
-            line-height: 1.6;
-            color: var(--text-muted);
-        }
-        
-        .res-bar {
-            margin-top: 10px;
-        }
-        
-        .res-bar-label {
-            display: flex;
-            justify-content: space-between;
-            font-size: 12px;
+            font-weight: 600;
             margin-bottom: 4px;
         }
         
-        .res-track {
-            height: 7px;
+        .result-desc {
+            font-size: 12px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        
+        .prob-bar {
+            margin-top: 8px;
+        }
+        
+        .prob-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 11px;
+            color: var(--text-muted);
+            margin-bottom: 3px;
+        }
+        
+        .prob-track {
+            height: 6px;
             background: var(--gray-200);
-            border-radius: 4px;
+            border-radius: 3px;
             overflow: hidden;
         }
         
-        .res-fill {
+        .prob-fill {
             height: 100%;
-            border-radius: 4px;
+            border-radius: 3px;
             transition: width .7s ease;
         }
         
-        .stats-grid {
+        .side-cards {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 10px;
         }
         
         .metric {
             background: var(--gray-100);
             border-radius: 8px;
-            padding: 1rem;
+            padding: 10px 12px;
+            margin-bottom: 6px;
+        }
+        
+        .metric:last-child {
+            margin-bottom: 0;
         }
         
         .metric .num {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 700;
         }
         
         .metric .lbl {
-            font-size: 12px;
+            font-size: 11px;
             color: var(--text-muted);
-            margin-top: 2px;
-        }
-        
-        .metric.r .num {
-            color: var(--red);
-        }
-        
-        .metric.g .num {
-            color: var(--green);
-        }
-        
-        .metric.b .num {
-            color: #378ADD;
+            margin-top: 1px;
         }
         
         .tip {
             display: flex;
-            gap: 8px;
+            gap: 7px;
             align-items: flex-start;
-            font-size: 13px;
-            line-height: 1.55;
-            margin-bottom: 8px;
+            font-size: 12px;
+            line-height: 1.5;
+            margin-bottom: 6px;
+        }
+        
+        .tip:last-child {
+            margin-bottom: 0;
         }
         
         .tip-dot {
-            width: 7px;
-            height: 7px;
+            width: 6px;
+            height: 6px;
             border-radius: 50%;
-            background: var(--red);
-            margin-top: 5px;
+            margin-top: 4px;
             flex-shrink: 0;
         }
         
-        .tech-tags {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 7px;
-            margin-top: .5rem;
+        .spinner {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid rgba(255, 255, 255, .4);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin .7s linear infinite;
+            margin-right: 6px;
+            vertical-align: middle;
         }
         
-        .tech-tag {
-            background: var(--gray-100);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 4px 11px;
-            font-size: 12px;
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
         }
         
         footer {
             border-top: 1px solid var(--border);
-            padding: 1.5rem 2rem;
-            text-align: center;
-            font-size: 12px;
+            padding: 12px 24px;
+            font-size: 11px;
             color: var(--text-muted);
+            text-align: center;
             background: #fff;
-            margin-top: 2rem;
+            margin-top: auto;
         }
     </style>
 </head>
 
 <body>
 
-
-    <div class="hero">
-        <div class="badge">🧠 AI-Powered Medical Tool</div>
-        <h1>Prediksi Risiko Stroke</h1>
-        <p>Masukkan data kesehatan Anda untuk mendapatkan analisis risiko stroke secara instan menggunakan model Machine Learning.</p>
-        <div class="hero-stats">
-            <span>📊 Akurasi &gt;90%</span>
-            <span>🗂 5,110 data latih</span>
+    <div class="sidebar">
+        <div class="sidebar-logo">
+            <div class="logo-mark">
+                <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            </div>
+            <div class="logo-title">Health Predict</div>
+            <div class="logo-sub">AI Medical Tool</div>
         </div>
+        <div class="sidebar-menu">
+            <div class="menu-label">Prediksi</div>
+            <button class="menu-item active-stroke" id="menu-stroke" onclick="showPage('stroke')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      Risiko Stroke
+    </button>
+            <button class="menu-item" id="menu-stunting" onclick="showPage('stunting')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v20M7 6l5-4 5 4M7 18l5 4 5-4"/></svg>
+      Stunting Anak
+    </button>
+        </div>
+        <div class="sidebar-footer">⚠️ Hanya untuk tujuan edukasi dan penelitian. Bukan pengganti diagnosis medis profesional.</div>
     </div>
 
-    <div class="container">
-        <div>
-            <div class="card">
-                <div class="card-title"><span>📋</span> Input Data Pasien</div>
-                <div class="form-grid">
-                    <div class="fg"><label>Usia (tahun)</label><input type="number" id="age" value="45" min="1" max="120" /></div>
-                    <div class="fg"><label>Jenis Kelamin</label>
-                        <select id="gender"><option value="Male">Laki-laki</option><option value="Female">Perempuan</option></select>
-                    </div>
-                    <div class="fg"><label>Penyakit Jantung</label>
-                        <select id="heart"><option value="0">Tidak</option><option value="1">Ya</option></select>
-                    </div>
-                    <div class="fg"><label>Hipertensi</label>
-                        <select id="hypertension"><option value="0">Tidak</option><option value="1">Ya</option></select>
-                    </div>
-                    <div class="fg"><label>Status Pernikahan</label>
-                        <select id="married"><option value="Yes">Menikah</option><option value="No">Belum Menikah</option></select>
-                    </div>
-                    <div class="fg"><label>Jenis Pekerjaan</label>
-                        <select id="work"><option value="Private">Swasta</option><option value="Self-employed">Wiraswasta</option><option value="Govt_job">PNS</option><option value="children">Pelajar</option></select>
-                    </div>
-                    <div class="fg"><label>Kadar Glukosa (mg/dL)</label><input type="number" id="glucose" value="105" /></div>
-                    <div class="fg"><label>BMI</label><input type="number" id="bmi" step="0.1" value="28.5" /></div>
-                    <div class="fg"><label>Status Merokok</label>
-                        <select id="smoke"><option value="never smoked">Tidak Pernah</option><option value="formerly smoked">Pernah Merokok</option><option value="smokes">Aktif Merokok</option></select>
-                    </div>
-                    <div class="fg"><label>Tempat Tinggal</label>
-                        <select id="residence"><option value="Urban">Perkotaan</option><option value="Rural">Pedesaan</option></select>
-                    </div>
+    <div class="main">
+        <div class="topbar">
+            <span class="topbar-title" id="topbar-title">Prediksi Risiko Stroke</span>
+
+        </div>
+
+        <div class="content">
+
+            <!-- STROKE -->
+            <div class="page active stroke-focus" id="page-stroke">
+                <div class="hero">
+                    <h1>Prediksi Risiko Stroke</h1>
+                    <p>Masukkan data kesehatan untuk mendapatkan analisis risiko stroke secara instan menggunakan model Machine Learning.</p>
+                    <div class="hero-stats"><span>🗂 5K+ data latih</span></div>
                 </div>
-                <button class="btn-predict" onclick="predict()">🔍 Analisis Risiko Stroke</button>
-                <div id="result">
-                    <div class="res-title" id="rTitle"></div>
-                    <div class="res-desc" id="rDesc"></div>
-                    <div class="res-bar">
-                        <div class="res-bar-label"><span>Probabilitas</span><span id="rProb"></span></div>
-                        <div class="res-track">
-                            <div class="res-fill" id="rFill"></div>
+                <div class="grid2">
+                    <div class="card">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg> Input
+                            Data Pasien
+                        </div>
+                        <div class="form-row">
+                            <div class="fg"><label>Usia (tahun)</label><input type="number" id="s-age" value="45" min="1" max="120" /></div>
+                            <div class="fg"><label>Jenis Kelamin</label><select id="s-gender"><option value="Male">Laki-laki</option><option value="Female">Perempuan</option></select></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="fg"><label>Penyakit Jantung</label><select id="s-heart"><option value="0">Tidak</option><option value="1">Ya</option></select></div>
+                            <div class="fg"><label>Hipertensi</label><select id="s-hypertension"><option value="0">Tidak</option><option value="1">Ya</option></select></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="fg"><label>Status Pernikahan</label><select id="s-married"><option value="Yes">Menikah</option><option value="No">Belum Menikah</option></select></div>
+                            <div class="fg"><label>Jenis Pekerjaan</label><select id="s-work"><option value="Private">Swasta</option><option value="Self-employed">Wiraswasta</option><option value="Govt_job">PNS</option><option value="children">Pelajar</option></select></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="fg"><label>Kadar Glukosa (mg/dL)</label><input type="number" id="s-glucose" value="105" /></div>
+                            <div class="fg"><label>BMI</label><input type="number" id="s-bmi" step="0.1" value="28.5" /></div>
+                        </div>
+                        <div class="form-row">
+                            <div class="fg"><label>Status Merokok</label><select id="s-smoke"><option value="never smoked">Tidak Pernah</option><option value="formerly smoked">Pernah Merokok</option><option value="smokes">Aktif Merokok</option></select></div>
+                            <div class="fg"><label>Tempat Tinggal</label><select id="s-residence"><option value="Urban">Perkotaan</option><option value="Rural">Pedesaan</option></select></div>
+                        </div>
+                        <button class="btn btn-red" id="btn-stroke" onclick="predictStroke()">🔍 Analisis Risiko Stroke</button>
+                        <div class="result-box" id="s-result">
+                            <div class="result-title" id="s-rtitle"></div>
+                            <div class="result-desc" id="s-rdesc"></div>
+                            <div class="prob-bar">
+                                <div class="prob-label"><span>Probabilitas</span><span id="s-rprob"></span></div>
+                                <div class="prob-track">
+                                    <div class="prob-fill" id="s-rfill"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="side-cards">
+
+                        <div class="card">
+                            <div class="card-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg> Performa Model
+                            </div>
+
+                            <div class="metric">
+                                <div class="num" style="color:var(--blue);">5K+</div>
+                                <div class="lbl">Data latih</div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0zM12 9v4M12 17h.01"/></svg> Faktor Risiko
+                            </div>
+                            <div class="tip">
+                                <div class="tip-dot" style="background:var(--red);"></div>Usia di atas 60 tahun</div>
+                            <div class="tip">
+                                <div class="tip-dot" style="background:var(--red);"></div>Kadar glukosa tinggi (&gt;200 mg/dL)</div>
+                            <div class="tip">
+                                <div class="tip-dot" style="background:var(--red);"></div>Hipertensi &amp; penyakit jantung</div>
+                            <div class="tip">
+                                <div class="tip-dot" style="background:var(--red);"></div>BMI di atas 30</div>
+                            <div class="tip">
+                                <div class="tip-dot" style="background:var(--red);"></div>Merokok aktif</div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="stats-grid">
-            <div class="card">
-                <div class="card-title"><span>⚠️</span> Faktor Risiko</div>
-                <div class="tip">
-                    <div class="tip-dot"></div>Usia di atas 60 tahun</div>
-                <div class="tip">
-                    <div class="tip-dot"></div>Kadar glukosa tinggi (&gt;200)</div>
-                <div class="tip">
-                    <div class="tip-dot"></div>Hipertensi & penyakit jantung</div>
-                <div class="tip">
-                    <div class="tip-dot"></div>BMI di atas 30</div>
-                <div class="tip">
-                    <div class="tip-dot"></div>Merokok aktif</div>
+            <!-- STUNTING -->
+            <div class="page teal-focus" id="page-stunting">
+                <div class="hero">
+                    <h1>Prediksi Stunting Anak</h1>
+                    <p>Masukkan data anak untuk mengetahui status gizi berdasarkan tinggi badan dan usia menggunakan model Machine Learning.</p>
+                    <div class="hero-stats"><span>🗂 121K+ data latih</span></div>
+                </div>
+                <div class="grid2">
+                    <div class="card">
+                        <div class="card-title">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/></svg> Input
+                            Data Anak
+                        </div>
+                        <div class="form-row">
+                            <div class="fg"><label>Umur (bulan)</label><input type="number" id="st-umur" placeholder="0 - 36 bulan" min="0" max="36" /></div>
+                            <div class="fg"><label>Jenis Kelamin</label><select id="st-gender"><option value="" disabled selected>Pilih jenis kelamin</option><option value="laki-laki">Laki-laki</option><option value="perempuan">Perempuan</option></select></div>
+                        </div>
+                        <div class="fg"><label>Tinggi Badan (cm)</label><input type="number" id="st-tinggi" placeholder="45 - 110 cm" min="45" max="110" step="0.1" /></div>
+                        <button class="btn btn-teal" id="btn-stunting" onclick="predictStunting()">🔍 Analisis Status Gizi</button>
+                        <div class="result-box" id="st-result">
+                            <div class="result-title" id="st-rtitle"></div>
+                            <div class="result-desc" id="st-rdesc"></div>
+                            <div class="prob-bar">
+                                <div class="prob-label"><span>Probabilitas</span><span id="st-rprob"></span></div>
+                                <div class="prob-track">
+                                    <div class="prob-fill" id="st-rfill"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="side-cards">
+                        <div class="card">
+                            <div class="card-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 20V10M12 20V4M6 20v-6"/></svg> Performa Model
+                            </div>
+
+                            <div class="metric">
+                                <div class="num" style="color:var(--blue);">121K+</div>
+                                <div class="lbl">Data latih</div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-title">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg> Kategori Status Gizi
+                            </div>
+                            <div class="tip">
+                                <div class="tip-dot" style="background:var(--green);"></div>Normal — tinggi sesuai usia</div>
+                            <div class="tip">
+                                <div class="tip-dot" style="background:var(--amber);"></div>Stunted — di bawah standar WHO</div>
+                            <div class="tip">
+                                <div class="tip-dot" style="background:var(--red);"></div>Severely stunted — jauh di bawah standar</div>
+                            <div class="tip">
+                                <div class="tip-dot" style="background:var(--blue);"></div>Tinggi — di atas rata-rata</div>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-    </div>
-    </div>
 
-    <footer>⚠️HANYA UNTUK TUJUAN EDUKASI DAN PENELITIAN. BUKAN PENGGANTI DIAGNOSIS MEDIS</footer>
+        </div>
+        <footer>⚠️ HANYA UNTUK TUJUAN EDUKASI DAN PENELITIAN. BUKAN PENGGANTI DIAGNOSIS MEDIS PROFESIONAL.</footer>
+    </div>
 
     <script>
-        async function predict() {
+        function showPage(id) {
+            document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+            document.getElementById('page-' + id).classList.add('active');
+            const ms = document.getElementById('menu-stroke');
+            const mt = document.getElementById('menu-stunting');
+            const tb = document.getElementById('topbar-title');
+            const bb = document.getElementById('topbar-badge');
+            if (id === 'stroke') {
+                ms.className = 'menu-item active-stroke';
+                mt.className = 'menu-item';
+                tb.textContent = 'Prediksi Risiko Stroke';
+                bb.textContent = 'KNN · Akurasi 83%';
+                bb.style.background = 'var(--red-light)';
+                bb.style.color = 'var(--red-dark)';
+            } else {
+                ms.className = 'menu-item';
+                mt.className = 'menu-item active-teal';
+                tb.textContent = 'Prediksi Stunting Anak';
+                bb.textContent = 'KNN · Akurasi 80%';
+                bb.style.background = 'var(--teal-light)';
+                bb.style.color = 'var(--teal-dark)';
+            }
+        }
+
+        async function predictStroke() {
+            const btn = document.getElementById('btn-stroke');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span>Menganalisis...';
             const body = {
-                gender: document.getElementById("gender").value,
-                age: document.getElementById("age").value,
-                hypertension: document.getElementById("hypertension").value,
-                heart_disease: document.getElementById("heart").value,
-                ever_married: document.getElementById("married").value,
-                work_type: document.getElementById("work").value,
-                residence_type: document.getElementById("residence").value,
-                avg_glucose_level: document.getElementById("glucose").value,
-                bmi: document.getElementById("bmi").value,
-                smoking_status: document.getElementById("smoke").value
+                gender: document.getElementById('s-gender').value,
+                age: document.getElementById('s-age').value,
+                hypertension: document.getElementById('s-hypertension').value,
+                heart_disease: document.getElementById('s-heart').value,
+                ever_married: document.getElementById('s-married').value,
+                work_type: document.getElementById('s-work').value,
+                residence_type: document.getElementById('s-residence').value,
+                avg_glucose_level: document.getElementById('s-glucose').value,
+                bmi: document.getElementById('s-bmi').value,
+                smoking_status: document.getElementById('s-smoke').value
             };
             try {
-                const res = await fetch("/predict", {
-                    method: "POST",
+                const res = await fetch('/predict', {
+                    method: 'POST',
                     headers: {
-                        "Content-Type": "application/json"
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify(body)
                 });
                 const d = await res.json();
-                showResult(d);
+                if (d.status === 'error') {
+                    alert('Error: ' + d.message);
+                    return;
+                }
+                const el = document.getElementById('s-result');
+                const isHigh = d.prediction === 1;
+                el.className = 'result-box show ' + (isHigh ? 'red' : 'green');
+                document.getElementById('s-rtitle').textContent = isHigh ? '⚠️ Risiko ' + d.risk_level : '✅ Risiko ' + d.risk_level;
+                document.getElementById('s-rdesc').textContent = d.message;
+                document.getElementById('s-rprob').textContent = d.probability + '%';
+                const fill = document.getElementById('s-rfill');
+                fill.style.width = d.probability + '%';
+                fill.style.background = isHigh ? '#E24B4A' : '#639922';
             } catch (e) {
-                alert("Error: " + e.message);
+                alert('Gagal terhubung ke server: ' + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '🔍 Analisis Risiko Stroke';
             }
         }
 
-        function showResult(d) {
-            const el = document.getElementById("result");
-            const isHigh = d.prediction === 1;
-            el.className = isHigh ? "high" : "low";
-            el.style.display = "block";
-            document.getElementById("rTitle").textContent = isHigh ? "⚠️ Risiko " + d.risk_level : "✅ Risiko " + d.risk_level;
-            document.getElementById("rDesc").textContent = d.message;
-            document.getElementById("rProb").textContent = d.probability + "%";
-            const fill = document.getElementById("rFill");
-            fill.style.width = d.probability + "%";
-            fill.style.background = isHigh ? "#E24B4A" : "#639922";
+        async function predictStunting() {
+            const btn = document.getElementById('btn-stunting');
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner"></span>Menganalisis...';
+            const body = {
+                umur: document.getElementById('st-umur').value,
+                jenis_kelamin: document.getElementById('st-gender').value,
+                tinggi_badan: document.getElementById('st-tinggi').value
+            };
+            try {
+                const res = await fetch('/predict-stunting', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(body)
+                });
+                const d = await res.json();
+                if (d.status === 'error') {
+                    alert('Error: ' + d.message);
+                    return;
+                }
+                const colorMap = {
+                    normal: 'green',
+                    stunted: 'amber',
+                    'severely stunted': 'red',
+                    tinggi: 'blue'
+                };
+                const iconMap = {
+                    normal: '✅',
+                    stunted: '⚠️',
+                    'severely stunted': '🚨',
+                    tinggi: '📈'
+                };
+                const el = document.getElementById('st-result');
+                el.className = 'result-box show ' + (colorMap[d.prediction] || 'green');
+                document.getElementById('st-rtitle').textContent = (iconMap[d.prediction] || '') + ' ' + d.prediction.charAt(0).toUpperCase() + d.prediction.slice(1);
+                document.getElementById('st-rdesc').textContent = d.message;
+                document.getElementById('st-rprob').textContent = d.confidence !== null ? d.confidence + '%' : '–';
+                const fill = document.getElementById('st-rfill');
+                fill.style.width = d.confidence !== null ? d.confidence + '%' : '0%';
+                const fillColors = {
+                    normal: '#639922',
+                    stunted: '#EF9F27',
+                    'severely stunted': '#E24B4A',
+                    tinggi: '#378ADD'
+                };
+                fill.style.background = fillColors[d.prediction] || '#639922';
+            } catch (e) {
+                alert('Gagal terhubung ke server: ' + e.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '🔍 Analisis Status Gizi';
+            }
         }
     </script>
 </body>
